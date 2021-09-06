@@ -37,7 +37,10 @@ int	checker(t_philo *phil, char *str)
 	if (ft_strcmp(str, "time_to_die") == 0)
 	{
 		if ((time - phil->last_lunch) > (phil->list.time_to_die))
+		{
 			phil->death = 1;
+			pthread_mutex_lock(phil->list.mutex_eval);
+		}
 	}
 	else if (ft_strcmp(str, "time_to_eat") == 0)
 	{
@@ -59,17 +62,21 @@ void	sleeping(t_philo *phil)
 
 	time = 0;
 	starter(phil, "sleeping");
-	pthread_mutex_lock(&phil->mutex_status);
 	time = get_time(time);
+//	pthread_mutex_lock(phil->list.mutex_eval);
 	printf("%lld ms - %d is sleeping\n", time, phil->id);
-	pthread_mutex_unlock(&phil->mutex_status);
+//	pthread_mutex_unlock(phil->list.mutex_eval);
 	while ((time - phil->start_sleeping) < (phil->list.time_to_sleep))
 	{
+		if (time - phil->last_lunch > phil->list.time_to_die)
+			phil->death = 1;
 		time = get_time(time);
 	}
-	pthread_mutex_lock(&phil->mutex_status);
+//	pthread_mutex_lock(phil->list.mutex_eval);
 	printf("%lld ms - %d is thinking\n", time, phil->id);
-	pthread_mutex_unlock(&phil->mutex_status);
+//	pthread_mutex_unlock(phil->list.mutex_eval);
+//	usleep(500);
+
 }
 
 void	*routine(void *arg)

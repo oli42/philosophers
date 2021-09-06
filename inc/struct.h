@@ -31,13 +31,15 @@ typedef struct s_args {
 	int		time_to_die;
 	int		time_to_sleep;
 	int		nbr_lunch;
+	pthread_mutex_t	*mutex_eval;
+
 }				t_args;
 
 typedef struct s_philo {
 	pthread_t		thread;
 	pthread_mutex_t	mutex_fork;
 	pthread_mutex_t	mutex_target;
-	pthread_mutex_t	mutex_status;
+//	pthread_mutex_t	mutex_status;
 	int				flag;
 	int				*check_flag;
 	int				id;

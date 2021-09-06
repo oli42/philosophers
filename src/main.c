@@ -12,7 +12,7 @@
 
 #include "philo.h"	
 
-int	check_full_norm(int i, t_philo **tab, void *arg)
+int	check_full_norm(int i, t_philo **tab/*, void *arg*/)
 {
 	long long	time;
 	int			toll;
@@ -30,7 +30,7 @@ int	check_full_norm(int i, t_philo **tab, void *arg)
 			{
 				time = get_time(time);
 				printf("\033[0;31m%lld ms, %d died\033[0m\n", time, tab[i]->id);
-				free(arg);
+				free(tab[i]->list.mutex_eval);
 				exit(0);
 			}
 			i++;
@@ -49,11 +49,9 @@ void	*check_full(void *arg)
 	i = 1;
 	time = 0;
 	tab = (t_philo **)arg;
-	check_full_norm(i, tab, arg);
-	time = get_time(time);
-	pthread_mutex_lock(&tab[i]->mutex_status);
+	check_full_norm(i, tab);
 	printf("\033[033m%lld ms ### all philisophers ate %d times\033[0m\n" \
-		, time, tab[i]->list.nbr_lunch);
+		, get_time(time), tab[i]->list.nbr_lunch);
 	free(arg);
 	exit(0);
 }

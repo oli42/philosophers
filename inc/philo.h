@@ -30,7 +30,7 @@ void			starter(t_philo *phil, char *str);
 int				checker(t_philo *phil, char *str);
 void			handle_fork(t_philo *phil);
 void			*check_full(void *arg);
-int				check_full_norm(int i, t_philo **tab, void *arg);
+int				check_full_norm(int i, t_philo **tab);
 void			eating(t_philo *phil);
 void			sleeping(t_philo *phil);
 void			ft_putstr_fd(char *str, int fd);

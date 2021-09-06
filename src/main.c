@@ -12,11 +12,16 @@
 
 #include "philo.h"	
 
-int	check_full_norm(int i, t_philo **tab/*, void *arg*/)
+void	*check_full(void *arg)
 {
+	int			i;
 	long long	time;
+	t_philo		**tab;
 	int			toll;
 
+
+	i = 1;
+	tab = (t_philo **)arg;
 	time = 0;
 	toll = 0;
 	while (toll != tab[i]->list.total_philo)
@@ -26,21 +31,22 @@ int	check_full_norm(int i, t_philo **tab/*, void *arg*/)
 		{
 			if (tab[i]->full == 1)
 				toll++;
-			if (tab[i]->death == 1)
-			{
-				time = get_time(time);
-				printf("\033[0;31m%lld ms, %d died\033[0m\n", time, tab[i]->id);
-				free(tab[i]->list.mutex_eval);
-				exit(0);
-			}
 			i++;
 		}
 		i = 1;
 	}
-	return (0);
+	printf("\033[033m%lld ms ### all philisophers ate %d times\033[0m\n" \
+		, get_time(time), tab[i]->list.nbr_lunch);
+//	free(tab);
+	i = 0;
+	while (tab[++i])
+		free(tab[i]);
+	exit(0);
+//	return (0);
 }
 
-void	*check_full(void *arg)
+
+void	*check_death(void *arg)
 {
 	int			i;
 	long long	time;
@@ -49,34 +55,47 @@ void	*check_full(void *arg)
 	i = 1;
 	time = 0;
 	tab = (t_philo **)arg;
-	check_full_norm(i, tab);
-	printf("\033[033m%lld ms ### all philisophers ate %d times\033[0m\n" \
-		, get_time(time), tab[i]->list.nbr_lunch);
-	free(arg);
+	while (tab[i]->death == 0)
+	{
+		while (tab[i] != NULL)
+		{
+			i++;
+		}
+		i = 1;
+	}	
+	printf("\033[0;31m%lld ms - %d died\033[0m\n" \
+		, get_time(time), tab[i]->id);
+	i = 0;
+	while (tab[++i])
+		free(tab[i]);
 	exit(0);
 }
 
 int	all_in(t_philo **tab_phil)
 {
 	pthread_t	check_lunch;
+	pthread_t	check_thread;
 	int			i;
 	int			j;
 
 	j = 1;
-	j = pthread_create(&check_lunch, NULL, &check_full, (void *)tab_phil);
+	i = 1;
+	j = pthread_create(&check_thread, NULL, check_death, (void *)tab_phil);
+	if (j != 0)
+		return (1);
+	j = pthread_create(&check_lunch, NULL, check_full, (void *)tab_phil);
 	if (j != 0)
 		return (1);
 	start_philo(tab_phil);
-	i = 1;
-	j = pthread_join(check_lunch, NULL);
-	if (j != 0)
-		return (1);
-	while (i < tab_phil[1]->list.total_philo)
+	if (pthread_join(check_thread, NULL && pthread_join(check_lunch, NULL);
 	{
-		j = pthread_join(tab_phil[i]->thread, NULL);
-		if (j != 0)
-			return (1);
-		i++;
+		while (i < tab_phil[1]->list.total_philo)
+		{
+			j = pthread_join(tab_phil[i]->thread, NULL);
+			if (j != 0)
+				return (1);
+			i++;
+		}
 	}
 	return (0);
 }

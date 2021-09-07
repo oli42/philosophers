@@ -31,7 +31,7 @@ typedef struct s_args {
 	int		time_to_die;
 	int		time_to_sleep;
 	int		nbr_lunch;
-	pthread_mutex_t	*mutex_eval;
+//	pthread_mutex_t	*mutex_eval;
 
 }				t_args;
 

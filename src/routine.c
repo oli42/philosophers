@@ -39,7 +39,7 @@ int	checker(t_philo *phil, char *str)
 		if ((time - phil->last_lunch) > (phil->list.time_to_die))
 		{
 			phil->death = 1;
-			pthread_mutex_lock(phil->list.mutex_eval);
+		//	pthread_mutex_lock(phil->list.mutex_eval);
 		}
 	}
 	else if (ft_strcmp(str, "time_to_eat") == 0)

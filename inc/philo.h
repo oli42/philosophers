@@ -36,4 +36,6 @@ void			sleeping(t_philo *phil);
 void			ft_putstr_fd(char *str, int fd);
 size_t			ft_strlen(const char *str);
 int				ft_strcmp(const char *s1, const char *s2);
+int	            free_all(t_philo **tab);
+
 #endif

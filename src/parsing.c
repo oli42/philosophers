@@ -28,7 +28,7 @@ t_args	parsing(char **argv)
 			args.nbr_lunch = ft_atoi(argv[5]);
 		i++;
 	}
-	args.mutex_eval = (pthread_mutex_t *)malloc(sizeof(args.mutex_eval));
+//	args.mutex_eval = (pthread_mutex_t *)malloc(sizeof(args.mutex_eval));
 	return (args);
 }
 
@@ -38,7 +38,6 @@ t_philo	**create_philo(t_args args)
 	int		i;
 
 	i = 1;
-//	(void)args;
 	tab_phil = malloc(sizeof(t_philo) * (args.total_philo));
 	while (i <= args.total_philo)
 	{
@@ -65,7 +64,6 @@ void	init_philo(t_philo **tab_phil)
 		tab_phil[i]->full = 0;
 		tab_phil[i]->death = 0;
 		tab_phil[i]->flag = 0;
-	//	tab_phil[i]->list = args;
 		if (i == tab_phil[1]->list.total_philo)
 			tab_phil[i]->check_flag = &tab_phil[1]->flag;
 		else
@@ -87,7 +85,7 @@ void	init_mutex(t_philo **tab_phil)
 	{
 		pthread_mutex_init(&tab_phil[i]->mutex_fork, NULL);
 		pthread_mutex_init(&tab_phil[i]->mutex_target, NULL);
-		pthread_mutex_init(tab_phil[i]->list.mutex_eval, NULL);
+	//	pthread_mutex_init(tab_phil[i]->list.mutex_eval, NULL);
 		i++;
 	}
 }

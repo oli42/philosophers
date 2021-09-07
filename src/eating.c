@@ -22,10 +22,10 @@ void	eating(t_philo *phil)
 	time = get_time(time);
 	phil->last_lunch = time;
 	phil->ate_lunch++;
-	pthread_mutex_lock(phil->list.mutex_eval);
+//	pthread_mutex_lock(phil->list.mutex_eval);
 	printf("%lld ms - %d is eating (\033[0;31m%d\033[0m)\n" \
 		, time, phil->id, phil->ate_lunch);
-	pthread_mutex_unlock(phil->list.mutex_eval);
+//	pthread_mutex_unlock(phil->list.mutex_eval);
 	if (phil->ate_lunch == phil->list.nbr_lunch)
 		phil->full = 1;
 	while ((time - phil->start_eating) < (phil->list.time_to_eat))

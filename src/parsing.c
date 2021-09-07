@@ -38,7 +38,8 @@ t_philo	**create_philo(t_args args)
 	int		i;
 
 	i = 1;
-	tab_phil = malloc(sizeof(t_philo) * (args.total_philo + 1));
+//	(void)args;
+	tab_phil = malloc(sizeof(t_philo) * (args.total_philo));
 	while (i <= args.total_philo)
 	{
 		tab_phil[i] = malloc(sizeof(t_philo));
@@ -64,6 +65,7 @@ void	init_philo(t_philo **tab_phil)
 		tab_phil[i]->full = 0;
 		tab_phil[i]->death = 0;
 		tab_phil[i]->flag = 0;
+	//	tab_phil[i]->list = args;
 		if (i == tab_phil[1]->list.total_philo)
 			tab_phil[i]->check_flag = &tab_phil[1]->flag;
 		else

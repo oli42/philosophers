@@ -62,20 +62,21 @@ void	sleeping(t_philo *phil)
 
 	time = 0;
 	starter(phil, "sleeping");
-	time = get_time(time);
-//	pthread_mutex_lock(phil->list.mutex_eval);
-	printf("%lld ms - %d is sleeping\n", time, phil->id);
-//	pthread_mutex_unlock(phil->list.mutex_eval);
+//	time = get_time(time);
+	pthread_mutex_lock(phil->list.mutex_eval);
+	printf("%lld ms - %d is sleeping\n", get_time(time), phil->id);
+	pthread_mutex_unlock(phil->list.mutex_eval);
 	while ((time - phil->start_sleeping) < (phil->list.time_to_sleep))
 	{
 		if (time - phil->last_lunch > phil->list.time_to_die)
 			phil->death = 1;
 		time = get_time(time);
 	}
-//	pthread_mutex_lock(phil->list.mutex_eval);
-	printf("%lld ms - %d is thinking\n", time, phil->id);
-//	pthread_mutex_unlock(phil->list.mutex_eval);
-//	usleep(500);
+	usleep(300);
+	pthread_mutex_lock(phil->list.mutex_eval);
+	printf("%lld ms - %d is thinking\n", get_time(time), phil->id);
+	pthread_mutex_unlock(phil->list.mutex_eval);
+	usleep(500);
 
 }
 
@@ -92,5 +93,5 @@ void	*routine(void *arg)
 		handle_fork(phil);
 	}
 	free(arg);
-	exit(0);
+	return (0);
 }

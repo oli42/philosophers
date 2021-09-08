@@ -28,7 +28,9 @@ t_args	parsing(char **argv)
 			args.nbr_lunch = ft_atoi(argv[5]);
 		i++;
 	}
-	args.mutex_eval = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	args.mutex_eval = NULL;
+//	args.mutex_eval = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	args.mutex_eval = calloc((size_t)args.mutex_eval, 0);
 	return (args);
 }
 

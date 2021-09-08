@@ -77,11 +77,13 @@ int	check_full(void *arg)
 	}
 	if (toll == tab[i]->list.total_philo && tag == 0)
 	{
+		pthread_mutex_lock(tab[i]->list.mutex_eval);
 		printf("\033[033m%lld ms ### all philisophers ate %d times\033[0m\n" \
 		, get_time(time), tab[i]->list.nbr_lunch);
 		free_all(tab);
 		return (0);
 	}
+	pthread_mutex_lock(tab[i]->list.mutex_eval);
 	printf("\033[0;31m%lld ms - %d died\033[0m\n" \
 					, get_time(time), tab[i]->id);
 	free_all(tab);

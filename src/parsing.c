@@ -6,7 +6,7 @@
 /*   By: ochichep <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 16:04:01 by ochichep          #+#    #+#             */
-/*   Updated: 2021/09/03 18:00:56 by ochichep         ###   ########.fr       */
+/*   Updated: 2021/09/19 12:50:24 by ochichep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ t_args	parsing(char **argv)
 		args.time_to_sleep = ft_atoi(argv[4]);
 		if (argv[5])
 			args.nbr_lunch = ft_atoi(argv[5]);
+		else
+			args.nbr_lunch = 0;
 		i++;
 	}
 	args.mutex_eval = NULL;
-//	args.mutex_eval = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	args.mutex_eval = calloc((size_t)args.mutex_eval, 0);
+	args.mutex_eval = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	return (args);
 }
 
@@ -87,7 +88,7 @@ void	init_mutex(t_philo **tab_phil)
 	{
 		pthread_mutex_init(&tab_phil[i]->mutex_fork, NULL);
 		pthread_mutex_init(&tab_phil[i]->mutex_target, NULL);
-	//	pthread_mutex_init(tab_phil[i]->list.mutex_eval, NULL);
+		pthread_mutex_init(tab_phil[i]->list.mutex_eval, NULL);
 		i++;
 	}
 }
@@ -105,7 +106,10 @@ int	start_philo(t_philo **tab_phil)
 			(void *)tab_phil[i]);
 		if (j != 0)
 			return (1);
-		usleep(67);
+	//	printf ("thread: %d result: %d\n",tab_phil[i]->id, i % 2);
+		usleep(10);
+		if (i % 2 == 0)
+			usleep(201);
 		i++;
 	}
 	return (0);

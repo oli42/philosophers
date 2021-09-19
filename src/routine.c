@@ -6,7 +6,7 @@
 /*   By: ochichep <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 16:04:34 by ochichep          #+#    #+#             */
-/*   Updated: 2021/09/03 16:23:54 by ochichep         ###   ########.fr       */
+/*   Updated: 2021/09/19 12:42:16 by ochichep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,18 @@ void	sleeping(t_philo *phil)
 	pthread_mutex_lock(phil->list.mutex_eval);
 	printf("%lld ms - %d is sleeping\n", get_time(time), phil->id);
 	pthread_mutex_unlock(phil->list.mutex_eval);
-	while ((time - phil->start_sleeping) < (phil->list.time_to_sleep))
+	while ((get_time(time) - phil->start_sleeping) < (phil->list.time_to_sleep))
 	{
 		if (time - phil->last_lunch > phil->list.time_to_die)
 			phil->death = 1;
 		time = get_time(time);
 	}
-	usleep(300);
 	pthread_mutex_lock(phil->list.mutex_eval);
 	printf("%lld ms - %d is thinking\n", get_time(time), phil->id);
 	pthread_mutex_unlock(phil->list.mutex_eval);
-	usleep(500);
-
+	usleep(10);
+	if (phil->id % 2 == 0)
+		usleep(201);
 }
 
 void	*routine(void *arg)

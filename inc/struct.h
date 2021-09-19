@@ -6,7 +6,7 @@
 /*   By: ochichep <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 10:20:58 by ochichep          #+#    #+#             */
-/*   Updated: 2021/09/03 16:18:33 by ochichep         ###   ########.fr       */
+/*   Updated: 2021/09/19 11:22:08 by ochichep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@
 # include <time.h>
 # include <string.h>
 
-# define TMA "Too many arguments\n"
-# define WA "Wrong arguments\n"
+# define TMA "Try again -  nbr of  arguments: min 4 / max 5\n"
+# define WA "Wrong arguments - only >= 0 && <= 9\n"
 # define TLA "Too long arguments\n"
-# define FZ "Zero not allowed\n"
+# define FZ "[0] not allowed\n"
 
 typedef struct s_args {
-	int		total_philo;
-	int		time_to_eat;
-	int		time_to_die;
-	int		time_to_sleep;
-	int		nbr_lunch;
+	int				total_philo;
+	int				time_to_eat;
+	int				time_to_die;
+	int				time_to_sleep;
+	int				nbr_lunch;
 	pthread_mutex_t	*mutex_eval;
 
 }				t_args;
@@ -39,7 +39,6 @@ typedef struct s_philo {
 	pthread_t		thread;
 	pthread_mutex_t	mutex_fork;
 	pthread_mutex_t	mutex_target;
-//	pthread_mutex_t	mutex_status;
 	int				flag;
 	int				*check_flag;
 	int				id;

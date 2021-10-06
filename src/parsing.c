@@ -6,7 +6,7 @@
 /*   By: ochichep <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 16:04:01 by ochichep          #+#    #+#             */
-/*   Updated: 2021/09/19 12:50:24 by ochichep         ###   ########.fr       */
+/*   Updated: 2021/09/30 12:45:01 by ochichep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ t_args	parsing(char **argv)
 			args.nbr_lunch = 0;
 		i++;
 	}
-	args.mutex_eval = NULL;
-	args.mutex_eval = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	args.mutex_status = NULL;
+	args.mutex_status = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	args.mutex_target = NULL;
+	args.mutex_target = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	return (args);
 }
 
@@ -40,15 +42,17 @@ t_philo	**create_philo(t_args args)
 	t_philo	**tab_phil;
 	int		i;
 
-	i = 1;
+	i = 0;
 	tab_phil = malloc(sizeof(t_philo) * (args.total_philo));
-	while (i <= args.total_philo)
+	while (i < args.total_philo)
 	{
 		tab_phil[i] = malloc(sizeof(t_philo));
 		tab_phil[i]->list = args;
-		tab_phil[i]->id = i;
+		tab_phil[i]->id = i + 1;
 		i++;
 	}
+	free ((void *)args.mutex_target);
+	free ((void *)args.mutex_status);
 	return (tab_phil);
 }
 
@@ -56,7 +60,7 @@ void	init_philo(t_philo **tab_phil)
 {
 	int	i;
 
-	i = 1;
+	i = 0;
 	while (tab_phil[i])
 	{
 		tab_phil[i]->start_routine = 0;
@@ -67,28 +71,23 @@ void	init_philo(t_philo **tab_phil)
 		tab_phil[i]->full = 0;
 		tab_phil[i]->death = 0;
 		tab_phil[i]->flag = 0;
-		if (i == tab_phil[1]->list.total_philo)
-			tab_phil[i]->check_flag = &tab_phil[1]->flag;
-		else
-			tab_phil[i]->check_flag = &tab_phil[i + 1]->flag;
-		if (i == tab_phil[1]->list.total_philo)
-			tab_phil[i]->mutex_target = tab_phil[1]->mutex_fork;
-		else
-			tab_phil[i]->mutex_target = tab_phil[i + 1]->mutex_fork;
+		tab_phil[i]->list.toll = 0;
+		tab_phil[i]->list.time = 0;
 		i++;
 	}
+	init_philo_2(tab_phil);
 }
 
 void	init_mutex(t_philo **tab_phil)
 {
 	int	i;
 
-	i = 1;
+	i = 0;
 	while (tab_phil[i])
 	{
 		pthread_mutex_init(&tab_phil[i]->mutex_fork, NULL);
-		pthread_mutex_init(&tab_phil[i]->mutex_target, NULL);
-		pthread_mutex_init(tab_phil[i]->list.mutex_eval, NULL);
+		pthread_mutex_init(tab_phil[i]->list.mutex_target, NULL);
+		pthread_mutex_init(tab_phil[i]->list.mutex_status, NULL);
 		i++;
 	}
 }
@@ -98,18 +97,14 @@ int	start_philo(t_philo **tab_phil)
 	int			i;
 	int			j;
 
-	i = 1;
+	i = 0;
 	j = 1;
-	while (i <= tab_phil[1]->list.total_philo)
+	while (i < tab_phil[0]->list.total_philo)
 	{
 		j = pthread_create(&tab_phil[i]->thread, NULL, (void *)routine, \
 			(void *)tab_phil[i]);
 		if (j != 0)
 			return (1);
-	//	printf ("thread: %d result: %d\n",tab_phil[i]->id, i % 2);
-		usleep(10);
-		if (i % 2 == 0)
-			usleep(201);
 		i++;
 	}
 	return (0);

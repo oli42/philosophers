@@ -6,7 +6,7 @@
 /*   By: ochichep <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 10:20:58 by ochichep          #+#    #+#             */
-/*   Updated: 2021/09/19 11:22:08 by ochichep         ###   ########.fr       */
+/*   Updated: 2021/09/30 12:43:51 by ochichep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,16 @@ typedef struct s_args {
 	int				time_to_die;
 	int				time_to_sleep;
 	int				nbr_lunch;
-	pthread_mutex_t	*mutex_eval;
+	int				toll;
+	long long		time;
+	pthread_mutex_t	*mutex_status;
+	pthread_mutex_t	*mutex_target;
 
 }				t_args;
 
 typedef struct s_philo {
 	pthread_t		thread;
 	pthread_mutex_t	mutex_fork;
-	pthread_mutex_t	mutex_target;
 	int				flag;
 	int				*check_flag;
 	int				id;

@@ -6,7 +6,7 @@
 /*   By: ochichep <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 16:02:58 by ochichep          #+#    #+#             */
-/*   Updated: 2021/09/19 11:20:15 by ochichep         ###   ########.fr       */
+/*   Updated: 2021/09/24 13:21:20 by ochichep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,13 @@ int	ft_strcmp(const char *s1, const char *s2)
 		return (s1[i] - s2[i]);
 	return (0);
 }
-
+/*
 long long	get_time(long long time)
 {
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
 	time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	time -= 1632290789999;
 	return (time);
-}
+}*/

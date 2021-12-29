@@ -1,4 +1,4 @@
-SRC =	main.c utils.c checking.c parsing.c routine.c eating.c \
+SRC =	main.c utils.c checking.c parsing.c routine.c eating.c time.c\
 
 NAME = philo
 CC = gcc -pthread
